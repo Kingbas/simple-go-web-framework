@@ -3,6 +3,7 @@ package v2
 import "net/http"
 
 // HandlerFunc defines the request handler used by gee
+// Every handlerFunc will be registered in the engine and serve http reqs.
 type HandlerFunc func(*Context)
 
 // Engine implement the interface of ServeHTTP
@@ -35,6 +36,7 @@ func (engine *Engine) Run(addr string) (err error) {
 }
 
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	// For every HTTP request, a new context corresponding to it is created.
 	c := newContext(w, req)
 	engine.router.handle(c)
 }
